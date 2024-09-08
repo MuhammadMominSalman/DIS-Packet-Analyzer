@@ -18,10 +18,10 @@ def process_dis_packet(packet):
     """Process a DIS packet and extract relevant information."""
     # Example processing of an Entity State PDU
     # Assuming the packet is an Entity State PDU, the PDU header is 14 bytes
-    pdu_header = packet[:14]
+    pdu_header = packet[:11]
     
     # Unpack the PDU header
-    pdu_type, protocol_version, exercise_id, pdu_length, timestamp, pdu_status = struct.unpack('>BBHIIH', pdu_header)
+    protocol_version, exercise_id, pdu_type, _, timestamp, pdu_length, pdu_status = struct.unpack('>BBBBIHB', pdu_header)
     
     print(f"PDU Type: {pdu_type}")
     print(f"Protocol Version: {protocol_version}")

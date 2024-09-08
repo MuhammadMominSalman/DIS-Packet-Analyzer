@@ -34,8 +34,8 @@ def multicast_listener(multicast_groups, ports):
             # Sanity check
             # print(sock.recv(1024).decode())
             process_packet(data)
-            process_dis_packet(data)
-            # print_dis_packet(data)
+            # process_dis_packet(data)
+            print_dis_packet(data)
 
 def stop_execting_reciever():
     global executing
