@@ -124,8 +124,12 @@ def analyze_packet_rate():
 
     return packet_rate
 
-def display_statistics():
+def display_statistics(packet_timestamps_app=None, latency_list_app=None, packet_count_app=None):    
     global packet_timestamps, latency_list, packet_count
+    if packet_timestamps_app and latency_list_app and packet_count_app:
+        packet_timestamps = packet_timestamps_app
+        latency_list = latency_list_app
+        packet_count = packet_count_app
 
     # Calculate packet rate over time
     packet_rate = analyze_packet_rate()
@@ -157,3 +161,7 @@ def display_statistics():
         plt.legend()
         plt.grid(True)
         plt.show()
+
+def get_packet_count():
+    global packet_count
+    return packet_count

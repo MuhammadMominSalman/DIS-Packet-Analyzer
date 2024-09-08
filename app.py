@@ -1,14 +1,11 @@
 import sys
 import threading
-import time
-import socket
-import struct
 from collections import deque
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout)
 from PyQt5.QtCore import QTimer
 from senderhelpers import multicast_dis_packet_sender
 from listenerhelpers import multicast_listener
-from packetprocesshelper import display_statistics
+from packetprocesshelper import display_statistics, get_packet_count
 
 
 class PacketCaptureApp(QWidget):
@@ -88,14 +85,15 @@ class PacketCaptureApp(QWidget):
             self.running = False
 
             # Stop the threads
-            self.thread1.join()
-            self.thread2.join()
-            self.thread3.join()
+            self.thread1.join(0)
+            self.thread2.join(0)
+            self.thread3.join(0)
 
             # Display statistics
             display_statistics()
 
     def update_statistics(self):
+        self.packet_count = get_packet_count()
         self.packet_count_label.setText(f'Total Packets Captured: {self.packet_count}')
 
 
