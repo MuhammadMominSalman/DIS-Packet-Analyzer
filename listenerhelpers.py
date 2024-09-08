@@ -1,6 +1,6 @@
 import struct
 import socket
-from packetprocesshelper import process_packet, process_dis_packet
+from packetprocesshelper import process_packet, process_dis_packet, print_dis_packet
 
 
 def multicast_listener(multicast_groups, ports):
@@ -28,8 +28,9 @@ def multicast_listener(multicast_groups, ports):
     
     while True:
         for sock in socket_list:
-            data, _ = sock.recvfrom(4096)
+            data, _ = sock.recvfrom(1024)
             # Sanity check
             # print(sock.recv(1024).decode())
             process_packet(data)
-            # process_dis_packet(data)
+            process_dis_packet(data)
+            # print_dis_packet(data)

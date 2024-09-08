@@ -13,10 +13,10 @@ def main():
     port2 = 6061
 
     # # Create thread for each multicast sender
-    thread1 = threading.Thread(target=multicast_dis_packet_sender, args=(multicast_group1, port1))
-    thread2 = threading.Thread(target=multicast_dis_packet_sender, args=(multicast_group2, port2))
+    thread1 = threading.Thread(target=multicast_dis_packet_sender, daemon = True, args=(multicast_group1, port1))
+    thread2 = threading.Thread(target=multicast_dis_packet_sender, daemon = True, args=(multicast_group2, port2))
     # Create thread for multicast listener
-    thread3 = threading.Thread(target=multicast_listener, args=([multicast_group1, multicast_group2], [port1, port2]))
+    thread3 = threading.Thread(target=multicast_listener, daemon = True, args=([multicast_group1, multicast_group2], [port1, port2]))
 
     # Start both threads
     thread1.start()
@@ -35,7 +35,6 @@ def main():
 
     # Display statistics
     display_statistics()
-    sys.exit()
 
 if __name__ == "__main__":
     main()
