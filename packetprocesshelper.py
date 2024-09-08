@@ -112,7 +112,7 @@ def analyze_packet_rate():
     global packet_timestamps
 
     # Calculate the number of packets received every minute (60 seconds)
-    time_window = 10
+    time_window = 60
     packet_rate = []
 
     # Iterate over the timestamps and calculate the rate per minute
