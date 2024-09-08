@@ -7,6 +7,8 @@ from opendis.DataOutputStream import DataOutputStream
 from opendis.dis7 import EntityStatePdu
 from opendis.RangeCoordinates import *
 
+executing = True
+
 def multicast_sender(multicast_group, port):
     """send UDP packets on a specific multicast group and port. 
 
@@ -26,7 +28,7 @@ def multicast_sender(multicast_group, port):
 
     data = "Hello World"
     
-    while True:
+    while executing:
         # Send from the multicast group and port
         sock.sendto(data.encode(), (multicast_group, port))
         time.sleep(2)
@@ -38,6 +40,7 @@ def multicast_dis_packet_sender(multicast_group, port):
     :param 2: port number
 
     """
+    global executing
     # 2 hop restriction in network
     ttl = struct.pack('b', 2)
 
@@ -79,7 +82,11 @@ def multicast_dis_packet_sender(multicast_group, port):
     pdu.serialize(outputStream)
     data = memoryStream.getvalue()
     
-    while True:
+    while executing:
         # Send from the multicast group and port
         sock.sendto(data, (multicast_group, port))
         time.sleep(5)
+
+def stop_execting_sender():
+    global executing
+    executing = False

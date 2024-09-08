@@ -3,8 +3,8 @@ import threading
 from collections import deque
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout)
 from PyQt5.QtCore import QTimer
-from senderhelpers import multicast_dis_packet_sender
-from listenerhelpers import multicast_listener
+from senderhelpers import multicast_dis_packet_sender, stop_execting_sender
+from listenerhelpers import multicast_listener, stop_execting_reciever
 from packetprocesshelper import display_statistics, get_packet_count
 
 
@@ -83,7 +83,8 @@ class PacketCaptureApp(QWidget):
     def stop_capture(self):
         if self.running:
             self.running = False
-
+            stop_execting_sender()
+            stop_execting_reciever()
             # Stop the threads
             self.thread1.join(0)
             self.thread2.join(0)

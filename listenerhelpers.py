@@ -3,6 +3,7 @@ import socket
 from packetprocesshelper import process_packet, process_dis_packet, print_dis_packet
 
 
+executing = True
 def multicast_listener(multicast_groups, ports):
     """listens for UDP packets on a specific multicast group and port. 
 
@@ -10,6 +11,7 @@ def multicast_listener(multicast_groups, ports):
     :param 2: port numbers
 
     """
+    global executing
     socket_list = []
     for _, (multicast_group, port) in enumerate(zip(multicast_groups, ports)):
         # Create a UDP socket
@@ -26,7 +28,7 @@ def multicast_listener(multicast_groups, ports):
         sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
         socket_list.append(sock)
     
-    while True:
+    while executing:
         for sock in socket_list:
             data, _ = sock.recvfrom(1024)
             # Sanity check
@@ -34,3 +36,7 @@ def multicast_listener(multicast_groups, ports):
             process_packet(data)
             process_dis_packet(data)
             # print_dis_packet(data)
+
+def stop_execting_reciever():
+    global executing
+    executing = False
